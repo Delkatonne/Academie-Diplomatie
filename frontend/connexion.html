@@ -1,0 +1,36 @@
+{% from "_macros.html" import errors %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Connexion | Académie de Diplomatie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+<a class="brand auth-brand" href="{{ url_for('public.index') }}"><span class="brand-mark">AD</span><span>Académie <b>de Diplomatie</b></span></a>
+<main class="auth-layout">
+  <section class="auth-aside">
+    <span class="eyebrow light">HEUREUX DE VOUS RETROUVER</span>
+    <h1>Reprenez votre parcours d'apprentissage.</h1>
+    <p>Connectez-vous pour retrouver vos formations, vos leçons et votre progression.</p>
+  </section>
+  <section class="auth-panel">
+    <a class="back-link" href="{{ url_for('public.index') }}">← Retour à l'accueil</a>
+    <h2>Connexion</h2>
+    <p class="muted">Accédez à votre espace apprenant.</p>
+    {% include "_flash.html" %}
+    <form method="post" action="{{ url_for('auth.login', next=request.args.get('next')) }}">
+      {{ form.hidden_tag() }}
+      {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+      <label>Adresse e-mail<input type="email" name="email" autocomplete="email" placeholder="vous@exemple.com" value="{{ form.email.data or '' }}" required>{{ errors(form.email) }}</label>
+      <label>Mot de passe<input type="password" name="password" autocomplete="current-password" placeholder="Votre mot de passe" required>{{ errors(form.password) }}</label>
+      <div class="form-row"><label class="check-label"><input type="checkbox" name="remember" value="y"> Se souvenir de moi</label></div>
+      <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+    </form>
+    <p class="auth-switch">Vous n'avez pas de compte ? <a href="{{ url_for('auth.register') }}">Créer un compte</a></p>
+  </section>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>

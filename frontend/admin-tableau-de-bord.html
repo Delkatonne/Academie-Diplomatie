@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administration | Académie de Diplomatie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('public.index') }}"><span class="brand-mark">AD</span><span>Académie <b>de Diplomatie</b></span></a>
+  <nav><a href="{{ url_for('public.formations') }}">Catalogue</a><a class="active" href="{{ url_for('admin.dashboard') }}">Administration</a></nav>
+  <div class="nav-actions">{% include "_nav_actions.html" %}</div>
+</header>
+<main class="page-wrap">
+  {% include "_flash.html" %}
+  <div class="page-heading"><span class="eyebrow">ADMINISTRATION</span><h1>Utilisateurs</h1><p>{{ total }} compte{{ 's' if total != 1 }} enregistré{{ 's' if total != 1 }}.</p></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Nom</th><th>E-mail</th><th>Téléphone</th><th>Rôles</th><th>Statut</th><th>Inscrit le</th></tr></thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.full_name }}</td><td>{{ u.email }}</td><td>{{ u.phone or '—' }}</td>
+          <td>{{ u.roles | map(attribute='name') | join(', ') or '—' }}</td>
+          <td>{{ 'Actif' if u.is_active else 'Désactivé' }}</td>
+          <td>{{ u.created_at.strftime('%d/%m/%Y') if u.created_at else '—' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>

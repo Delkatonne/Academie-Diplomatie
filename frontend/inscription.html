@@ -1,0 +1,36 @@
+{% from "_macros.html" import errors %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Inscription | Académie de Diplomatie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+<a class="brand auth-brand" href="{{ url_for('public.index') }}"><span class="brand-mark">AD</span><span>Académie <b>de Diplomatie</b></span></a>
+<main class="auth-layout">
+  <section class="auth-aside">
+    <span class="eyebrow light">BIENVENUE À L'ACADÉMIE</span>
+    <h1>Investissez dans votre connaissance du monde.</h1>
+    <p>Créez votre compte pour accéder à vos formations et suivre votre progression.</p>
+  </section>
+  <section class="auth-panel">
+    <a class="back-link" href="{{ url_for('public.index') }}">← Retour à l'accueil</a>
+    <h2>Créer un compte</h2>
+    <p class="muted">Renseignez vos informations pour commencer.</p>
+    <form method="post" action="{{ url_for('auth.register') }}">
+      {{ form.hidden_tag() }}
+      <label>Nom complet<input name="full_name" autocomplete="name" placeholder="Votre nom complet" value="{{ form.full_name.data or '' }}" required>{{ errors(form.full_name) }}</label>
+      <label>Adresse e-mail<input type="email" name="email" autocomplete="email" placeholder="vous@exemple.com" value="{{ form.email.data or '' }}" required>{{ errors(form.email) }}</label>
+      <label>Téléphone<input type="tel" name="phone" autocomplete="tel" placeholder="Votre numéro de téléphone" value="{{ form.phone.data or '' }}">{{ errors(form.phone) }}</label>
+      <label>Mot de passe<input type="password" name="password" autocomplete="new-password" minlength="8" placeholder="8 caractères minimum" required>{{ errors(form.password) }}</label>
+      <label>Confirmer le mot de passe<input type="password" name="password_confirm" autocomplete="new-password" minlength="8" placeholder="Confirmez votre mot de passe" required>{{ errors(form.password_confirm) }}</label>
+      <button class="btn btn-primary btn-block" type="submit">Créer mon compte</button>
+    </form>
+    <p class="auth-switch">Vous avez déjà un compte ? <a href="{{ url_for('auth.login') }}">Se connecter</a></p>
+  </section>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>
